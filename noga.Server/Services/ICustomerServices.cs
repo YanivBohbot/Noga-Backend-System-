@@ -10,7 +10,7 @@ namespace NOGA.Server.Services
         Task<Customers> AddCustomer(Customers customer);
         Task<bool> UpdateCustomerAsync(int id , Customers customer);
         Task<bool> DeleteCustomerAsync(int id);
-        Task<Customers?> AddCustomerAsync(Customers newCustomer);
+        Task<Customers> AddCustomerAsync(CustomerDTO newCustomer);
 
 
     }

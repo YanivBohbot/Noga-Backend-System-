@@ -15,30 +15,41 @@ namespace NOGA.Server.Services
         }
 
 
-        public async Task<Customers> AddCustomerAsync(Customers newCustomer)
+        public async Task<Customers> AddCustomerAsync(CustomerDTO newCustomer)
         {
             if (newCustomer == null)
             {
                 return null;
             }
 
-                newCustomer.CreatedAt = DateTime.Now;
-                newCustomer.isDeleted = false;
-
-                foreach (var address in newCustomer.Addresses)
+            // יצירת אובייקט לקוח חדש
+            var createdNewCustomer = new Customers
+            {  
+                Name = newCustomer.Name,
+                CustomerNumber = newCustomer.CustomerNumber,
+                CreatedAt = DateTime.UtcNow,
+                isDeleted = false,
+                Addresses = newCustomer.Addresses.Select(a => new Address
                 {
-                    address.CustomerId = newCustomer.Id;
-                }
-
-                foreach (var contact in newCustomer.Contacts)
+                    City = a.City,
+                    Street = a.Street,
+                    CreatedAt = DateTime.UtcNow,
+                    isDeleted = false
+                }).ToList(),
+                Contacts = newCustomer.Contacts.Select(c => new Contacts
                 {
-                    contact.CustomerId = newCustomer.Id;  // מנטרל את הקישור הדו-כיווני
-                }
+                    FullName = c.FullName,
+                    OfficeNumber = c.OfficeNumber,
+                    Email = c.Email,
+                    CreatedAt = DateTime.UtcNow,
+                    isDeleted = false
+                }).ToList()
+            };
 
-               _context.Customers.Add(newCustomer);
+            _context.Customers.Add(createdNewCustomer);
                 await _context.SaveChangesAsync();
           
-            return newCustomer;
+            return createdNewCustomer;
 
             
         }

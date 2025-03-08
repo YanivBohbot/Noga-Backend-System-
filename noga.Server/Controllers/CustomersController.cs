@@ -71,7 +71,7 @@ namespace NOGA.Server.Controllers
 
         // POST: api/customers
         [HttpPost]
-        public async Task<ActionResult<Customers>> AddCustomers([FromBody] Customers newCustomer)
+        public async Task<ActionResult<Customers>> AddCustomers([FromBody] CustomerDTO newCustomer)
         {
          
                 if (newCustomer == null)
