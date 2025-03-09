@@ -60,6 +60,8 @@ namespace NOGA.Server.Services
         public async Task<List<Customers>> GetCustomersAsync()
         {
             return await _context.Customers
+                 .Include(c => c.Addresses)
+                .Include(c => c.Contacts)
                 .Where(c => !c.isDeleted)
                 .ToListAsync();
         }
